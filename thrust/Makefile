@@ -12,7 +12,8 @@ NVCC = $(CUDA_ROOT)/bin/nvcc
 
 INCLUDES += -I$(BOOST_ROOT)
 
-NVCCFLAGS = -O3 $(INCLUDES) --use_fast_math --warn-on-local-memory-usage	
+NVCCFLAGS = -O3 $(INCLUDES) --use_fast_math
+# --warn-on-local-memory-usage	
 # -arch $(ARCH)
 
 ODIR=obj
