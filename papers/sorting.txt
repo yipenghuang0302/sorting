@@ -1,0 +1,26 @@
+Background:
+I've identified two papers and one webpage that provide background info on the idea.
+http://hrl.harvard.edu/analog/
+The two papers are attached.
+What's exciting about this idea is it solves a deeply discrete problem using continuous methods. Furthermore, aside from this collection of references, the idea hasn't been explored elsewhere.
+
+The way it works is roughly as follows:
+We set up a vector x, consisting of real numbers in a jumbled order.
+We set up a special ODE that involves the vector x, and another vector consisting of the natural numbers. This vector of the natural numbers provides the "discreteness" for the algorithm.
+This ODE can be solved on an analog computer.
+The final steady state of the analog output would have the original elements of the vector x, but now in sorted order. For example, the first integrator would have the lowest magnitude element of x.
+
+Area and time cost:
+If we'd like to sort a set of size N, the hardware area cost scales linearly by N.
+In terms of time cost, the time cost grows at least linearly with N, since that is the propagation delay between units. I don't know what would be the time cost due to waiting for the system to converge.
+
+I'd be looking for a BS/MS student who is comfortable with linear algebra, ordinary differential equations, and algorithms.
+We would first validate that the sorting functionality works at all using the HCDC and in an ODE solver.
+Then, we need to get an idea of how quickly the analog solver converges, and how this compares to discrete algorithms.
+
+sorting
+wiring
+analog sort
+brockett
+double bracket flow
+“double bracket”
