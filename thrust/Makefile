@@ -18,8 +18,7 @@ NVCCFLAGS = -O3 $(INCLUDES) --use_fast_math
 
 ODIR=obj
 
-LIBS=-lm
-# -lstdc++
+LIBS=-lm -lstdc++
 
 _DEPS = hamiltonian.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
@@ -30,7 +29,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 all: test
 
 $(ODIR)/%.o: %.cu
-	$(NVCC) -c -o $@ $< $(NVCCFLAGS)
+	$(NVCC) -c -o $@ $< $(NVCCFLAGS) $(LIBS)
 
 test: $(OBJ)
 	$(NVCC) -o $@ $^ $(NVCCFLAGS) $(LIBS)
