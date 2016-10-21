@@ -1,4 +1,4 @@
-BOOST_ROOT = /Users/yipenghuang0302/Desktop/boost_1_62_0
+BOOST_ROOT = /Developer/usr/include/
 
 CC=gcc
 INCLUDES += -I$(BOOST_ROOT)
