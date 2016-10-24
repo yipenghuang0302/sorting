@@ -1,0 +1,168 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{Toda Lattice, Double Bracket}
+\author{Lusa Zhan}
+\date{September 2016}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Equivalence between ODE and Lie bracket notation}
+
+The central idea of analog sorting as described in the papers is using the Toda Lattice, which is described using the Hamiltonian
+
+\[ H(p,q) = \frac{1}{2} \sum^{n}_{1}p_k^2 + \sum^{n-1}_{1}exp(q_k-q_{k+1})\]
+
+A system of equations are associated with this, defined as the Hamiltonian equations (can be derived using total differential)
+
+\[\dot{p_k} = -\frac{\partial H}{\partial q_k}\]
+\[\dot{q_k} = \frac{\partial H}{\partial p_k}.\]
+
+Calculating this, we get
+
+\[\dot{p_k} = exp(q_{k-1}-q_{k})-exp(q_{k}-q_{k+1}) \]
+\[\dot{q_k} = p_k\]
+
+where $e^{x_0-x_1}=e^{x_n-x_{n+1}}=0$
+
+\subsection{Toda Lattice - ODE form}
+
+This system of ODEs can  be changed to the system described in (http://hrl.harvard.edu/analog/) using a change of variables.
+
+\[x_k = -\frac{1}{2}p_k\]
+\[y_k = \frac{1}{2}e^{(q_k-q_{k+1})/2}\]
+
+In that case, 
+\begin{align*}
+    \dot{x_k} &= -\frac{1}{2}\dot{p_k} \\
+              &= -\frac{1}{2}(exp(q_{k-1}-q_{k})-exp(q_{k}-q_{k+1})) \\
+              &= -\frac{1}{2}(4y^2_{k-1}+4y^2_k) \\
+              &= 2y^2_k-2y^2_{k-1}
+\end{align*}
+
+and 
+
+\begin{align*}
+    \dot{y_k} &= \frac{1}{2}e^{(q_k-q_{k+1})/2}(\frac{\dot q_k-\dot q_{k+1}}{2}) \\
+              &= y_k\frac{p_k-\dot p_{k+1}}{2} \\
+              &= y_k(x_{k+1}-x_k) 
+\end{align*}
+
+Taking into account the boundary conditions $y_0=y_n=0$ and we get the desired system of ODEs.
+
+\subsection{Toda Lattice - Jacobi Matrix}
+
+The connection to the Double Bracket notation can be made through the Jacobi Matrix form of the Toda Lattice. The Jacobi Matrix is given by
+
+\[ H = \begin{bmatrix}
+    x_{1} & y_{1} & 0  & \dots & 0 \\
+    y_{1} & x_{2} & y_{2} & \dots & 0 \\
+     & & \ddots & \\
+          &       & y_{n-2} & x_{n-1} & y_{n-1}\\
+    0 & \hdots & & y_{n-1} & x_{n}
+\end{bmatrix}\]
+
+This is also the form that $H$ is in for analog sorting.
+
+In order to get the double bracket form, we need a diagonal matrix $N = diag(n, n-1, \dots, 1)$, so we need 
+
+\[
+N = \begin{bmatrix}
+        n & 0 & \hdots & 0 \\
+        0 & n-1 & \\
+        \vdots &  & \ddots & \vdots \\
+        0 & \hdots & & 1
+    \end{bmatrix}
+\]
+
+We then get 
+
+\[ 
+HN = \begin{bmatrix}
+        nx_1 & (n-1)y_1 & \hdots & 0 \\
+        ny_1 & (n-1)x_2 & \hdots & 0 \\
+        \vdots & & \ddots & 0\\
+         &  & 2x_{n-1} & y_{n-1} \\
+        0 & \hdots & 2y_{n-1} & x_n
+
+    \end{bmatrix}
+\]
+
+\[ 
+NH = \begin{bmatrix}
+        nx_1 & ny_1 & \hdots & 0 \\
+        (n-1)y_1 & (n-1)x_2 & \hdots & 0 \\
+        \vdots & & \ddots & 0\\
+         &  & 2x_{n-1} & 2y_{n-1} \\
+        0 & \hdots & y_{n-1} & x_n
+
+    \end{bmatrix}
+\]
+
+\[ 
+HN-NH = \begin{bmatrix}
+        0 & -y1 & \hdots &  & 0 \\
+        y_1 & 0 & -y_2 & \hdots & 0 \\
+        \vdots & \ddots & \ddots & \ddots & 0\\
+         & & y_{n-2}& 0 & -y_{n-1} \\
+        0 & & \hdots & y_{n-1} & 0
+
+    \end{bmatrix}
+\]
+
+\[ 
+H[H,N] = \begin{bmatrix}
+        y_1^2 & -x_1y_1 & -y_1y_2 & 0 &\hdots & 0 \\
+        x_2y_1 & -y_1^2+y^2_2 & -x_2y_2 & 0 &\hdots & \\
+        y_1y_2 & \ddots & & \ddots & & 0\\
+        \vdots &  &  &  & y^2_{n-1}-y^2_{n-2} & -x_{n-1}y_{n-1} \\
+        0 & \hdots & & & x_ny_{n-1} & -y^2_{n-1}
+
+    \end{bmatrix}
+\]
+
+\[ 
+[H,N]H = \begin{bmatrix}
+        y_1^2 & -x_2y_1 & -y_1y_2 & 0 &\hdots & 0 \\
+        x_1y_1 & y_1^2-y^2_2 & -x_3y_2 & 0 &\hdots & \\
+        y_1y_2 & \ddots & & \ddots & & 0\\
+        \vdots &  &  &  & -y^2_{n-1}+y^2_{n-2} & -x_{n}y_{n-1} \\
+        0 & \hdots & & & x_{n-1}y_{n-1} & y^2_{n-1}
+
+    \end{bmatrix}
+\]
+
+Therefore, we get 
+\[ 
+[H,[H,N]] = \begin{bmatrix}
+        2y_1^2 & y_1(x_2-x_1) & 0 & &\hdots & 0 \\
+        y_1(x_2-x_1) & -2y_1^2+2y^2_2 & y_2(x_3-x_2) & 0 &\hdots & \\
+        0 & \ddots & & \ddots & & 0\\
+        \vdots &  &  &  & 2y^2_{n-1}-2y^2_{n-2} & y_{n-1}(x_{n}-x_{n-1}) \\
+        0 & \hdots & & & y_{n-1}(x_{n}-x_{n-1} & -2y^2_{n-1}
+
+    \end{bmatrix}
+\]
+
+which is exactly $\dot{H}$
+
+\section{Related work}
+
+Below is a list of articles that are related to this topic: 
+\begin{itemize}
+
+\item{
+    Bloch, Anthony M., and Alberto G. Rojo. ``Sorting: The Gauss Thermostat, the Toda Lattice and Double Bracket Equations,.'' \textit{Three Decades of Progress in Control Sciences} (2010): 35-48. }
+\item{
+    Guseinov, Gusein Sh. ``A Class of Complex Solutions to the Finite Toda Lattice.'' \textit{Mathematical and Computer Modelling} 57.5-6 (2013): 1190-202.}
+    
+\item{
+    Tomei, Carlos. ``The Toda Lattice, Old and New.'' \textit{JGM Journal of Geometric Mechanics} 5.4 (2013): 511-30. Web.}
+\end{itemize}
+
+
+\end{document}
