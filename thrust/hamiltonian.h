@@ -7,6 +7,10 @@
 #include <boost/numeric/odeint/integrate/integrate_const.hpp>
 #include <boost/numeric/odeint/external/thrust/thrust.hpp>
 
+// Based on "oscillator chains" example at:
+// http://www.boost.org/doc/libs/1_57_0/libs/numeric/odeint/doc/html/boost_numeric_odeint/tutorial/using_cuda__or_openmp__tbb_______via_thrust.html#boost_numeric_odeint.tutorial.using_cuda__or_openmp__tbb_______via_thrust.large_oscillator_chains
+// the only important change is the definition of dpdt = f(q)
+
 typedef std::vector< double > host_type;
 typedef thrust::device_vector< size_t > index_vector_type;
 typedef thrust::device_vector< double > device_type;
