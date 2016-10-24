@@ -1,3 +1,27 @@
+Bloch and Rojo: Section 3.2 of Bloch and Rojo paper says the Toda flow preserves the eigenvalues. This seems to be the main connection to the QR algorithm, which also preserves eigenvalues across iterations.
+It's a well-known effect that the QR algorithm orders the eigenvalues down the diagonal; but few researchers have pointed out that this may be useful in itself, for sorting.
+It seems that the QR algorithm is the only major eigenvalue / eigenvector algorithm that does this ordering.
+
+The matrix N of the natural numbers happens to make [H,N] have the form B on page 37 of Bloch & Rojo.
+Now, we can say that matrix N is the way it is just to make the HN-NH have a special shape.
+But, on the other hand, N, being a matrix of integers, is the only participant in this system that has "discreteness." Otherwise the system is all real numbers evolving in continuous-time.
+
+I like how you point out that the Toda flow is a Hamiltonian system.
+Hamiltonian systems have specialized ODE solvers called symplectic solvers.
+
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.qr.html
+http://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode
+http://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html
+
+Brockett p802 H(0) and N play dual roles. There are two ways to set up the sorter
+Way 1:
+H(0) is the tridiagonal, with the stuff we want to sort on the diagonal. Off diagonal, some small values. N is diagonal matrix of the natural numbers.
+Way 2:
+N is diagonal matrix of the stuff we want to sort.
+
+
+
+
 Background:
 I've identified two papers and one webpage that provide background info on the idea.
 http://hrl.harvard.edu/analog/
