@@ -1,7 +1,5 @@
 #include "hamiltonian.h"
 
-typedef std::vector< double > container_type;
-
 // dynamic range of real numbers we are sorting
 double big_rng = 256.0;
 

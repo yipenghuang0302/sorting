@@ -6,6 +6,8 @@
 #include <boost/numeric/odeint/stepper/symplectic_rkn_sb3a_mclachlan.hpp>
 #include <boost/numeric/odeint/integrate/integrate_const.hpp>
 
+typedef std::vector< double > container_type;
+
 // ODE function object
 struct momentum {
 	// system function defining the ODE

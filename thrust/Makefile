@@ -1,6 +1,6 @@
 # make sure BOOST_ROOT is pointing to your boost directory
 # otherwise, set it here:
-BOOST_ROOT = /Users/yipenghuang0302/Desktop/boost_1_62_0
+BOOST_ROOT = /Developer/usr/include/
 
 # path to the cuda installation
 CUDA_ROOT = /usr/local/cuda
