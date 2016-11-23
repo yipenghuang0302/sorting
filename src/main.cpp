@@ -1,3 +1,5 @@
+#include <stdio.h>
+// #include <papi.h> 
 #include "hamiltonian.h"
 
 double rms ( size_t n, container_type a, container_type b ) {
@@ -11,16 +13,16 @@ int main() {
 
 	srand (time(NULL));
 
-	// dynamic range of real numbers we are sorting
-	for (double dt=1.0/256.0; 1.0/256.0<=dt; dt=dt/2.0) {
-		// range of off-diagonals
+	for (double dt=1/256.0; 1.0/256.0<=dt; dt=dt/2.0) {
+		// dynamic range of real numbers we are sorting
 		for (double range=2.0; range<=2.0; range*=2.0) {
+			// range of off-diagonals
 			for (double interval=16.0; interval<=16.0; interval*=2.0) {
 
 				// number of reals to sort
 				// we pad with two boundary elements at front and back
 				for (size_t n=2; n<=256; n*=2) {
-					for (size_t trial=0; trial<=256; trial++) {
+					for (size_t trial=0; trial<=4; trial++) {
 
 						// q is position in Hamiltonian system; in sorting system they are related to off-diagonals
 						// p is momentum in Hamiltonian system; in sorting system they are related to the set to sort
@@ -32,7 +34,19 @@ int main() {
 							p_curr[i] = p_sort[i] = -range + (float)(rand()) / (float)(RAND_MAX/(range-(-range)));
 						}
 						q[n-1] = HUGE_VAL; // q_0 is initialized to positive infinity
+
+						/* Setup PAPI library and begin collecting data from the counters */
+						int retval;
+						float real_time, proc_time_start, proc_time_stop, mflops;
+						long long flpins_start, flpins_stop;
+						// if((retval=PAPI_flops( &real_time, &proc_time_start, &flpins_start, &mflops))<PAPI_OK)
+						// 	printf ("PAPI_flops");
+						// golden model sort
 						std::sort (p_sort.begin()+1, p_sort.end()-1);
+						// if((retval=PAPI_flops( &real_time, &proc_time_stop, &flpins_stop, &mflops))<PAPI_OK)
+						// 	printf ("PAPI_flops");
+						float proc_time = proc_time_stop - proc_time_start;
+						long long flpins = flpins_stop - flpins_start;
 
 						// we use a symplectic ODE solver (likely based on Verlet integration)
 						// symplectic solvers are ideal for Hamiltonian systems
@@ -52,6 +66,7 @@ int main() {
 						// }
 
 						double time = 0.0;
+						double error = DBL_MAX;
 						do {
 							p_prev = p_curr;
 							stepper.do_step (
@@ -62,7 +77,11 @@ int main() {
 								// streaming_observer( std::cout , 16*16*16 )
 							);
 							time += dt;
-						} while ( DBL_EPSILON<rms(n, p_prev, p_curr) );
+
+							error = rms(n, p_prev, p_curr);
+							// printf("error =\t%e\n", error);
+
+						} while ( DBL_EPSILON<error );
 
 						double quality = rms(n, p_sort, p_curr);
 
@@ -70,8 +89,7 @@ int main() {
 						// 	printf("final p[%ld] =\t%e\tfinal q[%ld] =\t%e\n", idx, p_curr[idx], idx, q[idx]);
 						// }
 
-						printf("dt =\t%e\trange =\t%e\tinterval =\t%e\tn =\t%ld\ttime =\t%e\tquality = \t%e\n", dt, range, interval, n, time, quality);
-
+						printf("dt =\t%e\trange =\t%e\tinterval =\t%e\tn =\t%ld\tproc_time =\t%e\tflpins =\t%lld\ttime =\t%e\tquality = \t%e\n", dt, range, interval, n, proc_time, flpins, time, quality);
 					}
 				}
 			}

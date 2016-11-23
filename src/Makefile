@@ -1,8 +1,8 @@
 BOOST_ROOT = /Developer/usr/include/
 
 CC=gcc
-INCLUDES += -I$(BOOST_ROOT)
-CFLAGS=-Wall -Werror -O3 $(INCLUDES)
+INCLUDES += -I$(BOOST_ROOT) -I/home/yipeng/include/
+CFLAGS=-Wall -O3 $(INCLUDES) -pg
 
 ODIR=obj
 
