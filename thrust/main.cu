@@ -27,8 +27,8 @@ int main( int argc , char **argv ) {
 
 				// number of reals to sort
 				// we pad with two boundary elements at front and back
-				for (size_t n=2; n<=256; n*=2) {
-					for (size_t trial=0; trial<=256; trial++) {
+				for (size_t n=16; n<=16; n*=2) {
+					for (size_t trial=0; trial<=0; trial++) {
 
 						// q is position in Hamiltonian system; in sorting system they are related to off-diagonals
 						// p is momentum in Hamiltonian system; in sorting system they are related to the set to sort
@@ -82,6 +82,7 @@ int main( int argc , char **argv ) {
 									binary_op
 								)/n
 							);
+							printf("error =\t%e\n", error);
 						} while ( DBL_EPSILON<error );
 
 						double quality = rms(n, p_sort, p_curr);
