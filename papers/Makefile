@@ -1,6 +1,6 @@
-PAPER = sig-alternate-sample
+PAPER = paper
 TEX = $(wildcard *.tex)
-BIB = sigproc.bib
+BIB = paper.bib
 FIGS = $(wildcard figures/*.eps figures/*.pdf figures/*.png)
 
 .PHONY: all clean

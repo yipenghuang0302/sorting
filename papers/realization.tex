@@ -1,0 +1,29 @@
+After reviewing the mathematics of analog sorting, we now discuss how the analog sorter is put in practice.
+
+The analog sorter works as follows:
+% We set up a vector x, consisting of real numbers in a jumbled order.
+We construct matrix H(t=0) with the real numbers we want to sort on the diagonal.
+Naturally H(t=0) has eigenvalues consisting of the same real numbers.
+We set up a special ODE that involves the vector x, and another vector consisting of the natural numbers.
+This vector of the natural numbers provides the "discreteness" for the algorithm.
+Specifically, this ODE is the finite Toda lattice ODE, which preserves the eigenvalues of H(t), while reordering the elements on the diagonal to the sorted sequence.
+This solve this ODE on an analog computer.
+The final steady state of the analog output would have the original elements of the vector x, but now in sorted order.
+For example, the first integrator would have the lowest magnitude element of x.
+
+% It's still unclear to me:
+% 1. What's the role of the off-diagonal parts of the symmetric, tridiagonal H. Brockett tells us to put some small values there to kick off the algorithm.
+% 2. What's the role of the matrix of the natural numbers N.
+% The matrix N of the natural numbers happens to make [H,N] have the form B on page 37 of Bloch & Rojo.
+% Now, we can say that matrix N is the way it is just to make the HN-NH have a special shape.
+
+% But, on the other hand, N, being a matrix of integers, is the only participant in this system that has "discreteness." Otherwise the system is all real numbers evolving in continuous-time.
+
+There are some variations to this idea.
+One is we can tackle the finite Toda lattice system directly as a Hamiltonian system.
+Another is we can reverse the roles of the sort keys and the indices.
+This is described by Brockett briefly in page 802 of~\cite{brockett}.
+% Way 1:
+% H(0) is the tridiagonal, with the stuff we want to sort on the diagonal. Off diagonal, some small values. N is diagonal matrix of the natural numbers.
+% Way 2:
+% N is diagonal matrix of the stuff we want to sort.

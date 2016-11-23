@@ -1,0 +1,17 @@
+The analog sorting method we show is related to the classical QR algorithm.
+While the QR algorithm is a discrete algorith operating step-by-step, the analog sorting algorithm does so in continuous time~\cite{deift, chu_realization, chu_flows}.
+
+The QR algorithm finds the eigenvalues and eigenvectors of a square matrix.
+The eigenvalue problem is as follows:
+\[A_0x = \lambda x\]
+
+The QR algorithm operates as follows:
+Given the QR decomposition, each step proceeds as:
+\[A_k = Q_k R_k\]
+\[A_{k+1} = R_k Q_k\]
+
+A side effect of the QR algorithm is that the eigenvalues of the original matrix end up in sorted order along the diagonal.
+This is a useful property in eigenvalue problems, where users of the algorithm are interested in finding the largest few eigenvalues.
+But few researchers have pointed out that this may be useful in itself, for sorting.
+Other algorithms for finding the eigenvalues and eigenvectors include the Jacobi eigenvalue algorithm, and the divide-and-conquer algorithm.
+It seems that the QR algorithm is the algorithm among these that sorts the eigenvalues.

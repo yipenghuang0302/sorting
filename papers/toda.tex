@@ -1,0 +1,18 @@
+The finite Toda lattice is an ODE system that is related to the QR algorithm.
+If you plot the evolution of the Toda lattice ODE with respect to time, the values of the ODE at integer time steps is the intermediate states of the QR algorithm.
+% Bloch and Rojo: Section 3.2 of Bloch and Rojo paper says the Toda flow preserves the eigenvalues. This seems to be the main connection to the QR algorithm, which also preserves eigenvalues across iterations.
+The common property of the finite Toda lattice and the QR algorithm is that both preserve the eigenvalues of the matrix they operate on~\cite{bloch}.
+
+The finite Toda lattice is a Hamiltonian system with the form:
+\[ \hham(p,q) = \frac{1}{2} \sum^{n}_{1}p_k^2 + \sum^{n-1}_{1}exp(q_k-q_{k+1})\]
+
+This basic form can changed in two ways, using change of variables, into the equations for analog sorting described in~\cite{brockett}.
+
+\input{../reports/TodaDoubleBracket}
+
+% equivalently, the Toda flow is
+% dX/dt = [X(t), pi_0(X(t))]
+% =X(t) pi_0(X(t)) - pi_0(X(t)) X(t)
+
+% where pi_0 = X^- - X^{-T}
+% where X^- is the lower triangular part
