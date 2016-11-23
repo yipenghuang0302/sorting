@@ -3,8 +3,8 @@ How does analog sorting compare to other sorting algorithms for example quick, m
 \subsection{Functionality validation of analog sorting}
 \begin{figure}
 \centering
-\includegraphics{../pyscripts/Graphs/10d_toda_2.png}
-\caption{A sample black and white graphic.}
+\includegraphics[width=\columnwidth]{../pyscripts/Graphs/10d_toda_2.png}
+\caption{Simulated sorting a 10 element vector.}
 \end{figure}
 
 \subsection{Time cost of the discrete QR algorithm}
@@ -16,25 +16,32 @@ Time cost of QR step:
 	Numerical Recipes 3rd Edition p585 says the QR algorithm takes O(N) time for symmetric tridiagonal matrices.
 
 \subsection{Time cost of analog sorting}
-% \begin{figure}
-% \centering
-% \includegraphics{fly}
-% \caption{A sample black and white graphic.}
-% \end{figure}
+
+In terms of time, the sorter takes at least O(N) time because of the time it takes just for signals to propagate across the circuit.
+Another issue is the time it takes for the ODE to settle to its final value.
+This is preliminary data showing the time to convergence of analog sorting, plotted against problem size.
+
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{../data/ode_time_vs_problem_size.pdf}
+\caption{Preliminary time to convergence vs. problem size.}
+\end{figure}
+
+The axes are the time to solution, plotted against N, the number of real numbers we are sorting.
+The data points come from multiple random trials at each N.
+The set of real numbers is randomly generated from a chosen dynamic range.
+It appears that as the N size increases, the average time grows linearly with respect to N.
+Furthermore, the variance of the solution time, measured as the standard deviation, also grows.
+
+Other variables to consider include:
+\begin{enumerate}
+\item the dynamic range of real numbers to sort
+\item the initial values of the off-diagonals
+\end{enumerate}
 
 \subsection{Hardware cost of analog sorting}
-Time cost of analog sorting
-	In terms of time, the sorter takes at least O(N) time because of the time it takes just for signals to propagate across the circuit.
-	Another issue is the time it takes for the ODE to settle to its final value.
 
-Hardware cost of analog sorting
 The analog sorter takes up O(N) amount of circuit components to sort N elements.
-
-
-
-
-
-
 
 % \begin{figure}
 % \centering
@@ -43,14 +50,12 @@ The analog sorter takes up O(N) amount of circuit components to sort N elements.
 % that has been resized with the \texttt{includegraphics} command.}
 % \end{figure}
 
-
 % \begin{figure*}
 % \centering
 % \includegraphics{flies}
 % \caption{A sample black and white graphic
 % that needs to span two columns of text.}
 % \end{figure*}
-
 
 % \begin{figure}
 % \centering
@@ -59,4 +64,3 @@ The analog sorter takes up O(N) amount of circuit components to sort N elements.
 % been resized with the \texttt{includegraphics} command.}
 % \vskip -6pt
 % \end{figure}
-
