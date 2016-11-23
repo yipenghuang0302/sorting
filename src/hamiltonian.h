@@ -1,10 +1,11 @@
 #include <stdlib.h>
+#include <algorithm>
 #include <iostream>
 #include <vector>
+#include <float.h>
 #include <cmath>
 
 #include <boost/numeric/odeint/stepper/symplectic_rkn_sb3a_mclachlan.hpp>
-#include <boost/numeric/odeint/integrate/integrate_const.hpp>
 
 typedef std::vector< double > container_type;
 
