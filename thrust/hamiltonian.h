@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+#include <float.h>
 #include <cmath>
 
 #include <boost/numeric/odeint/stepper/symplectic_rkn_sb3a_mclachlan.hpp>
@@ -28,8 +29,8 @@ public:
         void operator()( Tuple t )  // this functor works on tuples of values
         {
             // first, unpack the tuple into value, neighbors
-            const double q = thrust::get<0>(t);
-            const double q_l = thrust::get<1>(t);  // left neighbor
+            const double q_l = thrust::get<0>(t);  // left neighbor
+            const double q = thrust::get<1>(t);
             const double q_r = thrust::get<2>(t); // right neighbor
             // the dynamical equation
             thrust::get<3>(t) = exp( q_l - q ) - exp( q - q_r );
@@ -37,15 +38,15 @@ public:
     };
 
     momentum ( const size_t n ) :
-        m_N( n ) ,
         m_prev( n ) ,
+        m_N( n ) ,
         m_next( n )
     {
         // build indices pointing to left and right neighbours
         thrust::counting_iterator<size_t> c( 0 );
+
         thrust::copy( c , c+m_N-1 , m_prev.begin()+1 );
         m_prev[0] = 0; // m_prev = { 0 , 0 , 1 , 2 , 3 , ... , N-1 }
-
         thrust::copy( c+1 , c+m_N , m_next.begin() );
         m_next[m_N-1] = m_N-1; // m_next = { 1 , 2 , 3 , ... , N-1 , N-1 }
     }
@@ -57,16 +58,16 @@ public:
             // where to start
             thrust::make_zip_iterator(
                     thrust::make_tuple(
-                            q.begin()+1 ,
                             thrust::make_permutation_iterator( q.begin() , m_prev.begin()+1 ) ,
+                            q.begin()+1 ,
                             thrust::make_permutation_iterator( q.begin() , m_next.begin()+1 ) ,
                             dpdt.begin()+1
                             ) ),
             // where to stop
             thrust::make_zip_iterator(
                     thrust::make_tuple(
-                            q.end()-1 ,
                             thrust::make_permutation_iterator( q.begin() , m_prev.end()-1 ) ,
+                            q.end()-1 ,
                             thrust::make_permutation_iterator( q.begin() , m_next.end()-1 ) ,
                             dpdt.end()-1
                             ) ) ,
@@ -76,8 +77,8 @@ public:
 
 private:
 
-    const size_t m_N;
     index_vector_type m_prev;
+    const size_t m_N;
     index_vector_type m_next;
 };
 

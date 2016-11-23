@@ -12,13 +12,15 @@ NVCC = $(CUDA_ROOT)/bin/nvcc
 
 INCLUDES += -I$(BOOST_ROOT)
 
-NVCCFLAGS = -O3 $(INCLUDES) --use_fast_math
-# --warn-on-local-memory-usage	
-# -arch $(ARCH)
+NVCCFLAGS = -arch $(ARCH) -O3 $(INCLUDES) -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB
+
+# -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP
+# -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA
 
 ODIR=obj
 
-LIBS=-lm -lstdc++
+LIBS= -lm -ltbb
+# -L/home/yipeng/lib -lpapi -lgomp -lcudart -L/home/yipeng/cuda-8.0/extras/CUPTI/lib64 -L/usr/local/cuda-8.0/extras/CUPTI/lib64 -lcupti -lcuda
 
 _DEPS = hamiltonian.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
