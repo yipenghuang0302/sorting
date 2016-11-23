@@ -30,9 +30,9 @@ def vectorfield(w, t):
 # Initial conditions
 # x1 and x2 are the initial displacements; y1 and y2 are the initial velocities
 x1 = 3
-y1 = 2
+y1 = 0.25
 x2 = 4
-y2 = 1
+y2 = 0.25
 x3 = 5
 
 # ODE solver parameters

@@ -1,32 +1,26 @@
-Bloch and Rojo: Section 3.2 of Bloch and Rojo paper says the Toda flow preserves the eigenvalues. This seems to be the main connection to the QR algorithm, which also preserves eigenvalues across iterations.
+keywords
+linear algebra, ordinary differential equations, and algorithms
+
+Background
+Classical sorting
+How does analog sorting compare to other sorting algorithms for example quick, merge etc in terms of complexity?
+
+The QR and related algorithms
+The papers point out that the Lie bracket ODE is doing a continuous time version of the QR algorithm.
+The system of ODEs is a continuous-time equivalent of the (discrete-time) QR algorithm.
+The QR algorithm finds the eigenvalues and eigenvectors of a square matrix.
+eigenvalue problem: A_0x = \lambda x
+
+qr algorithm
+given the QR decomposition
+A_k = Q_k R_k
+A_{k+1} = R_k Q_k
+
+A side effect of the QR algorithm is that the eigenvalues of the original matrix end up in sorted order along the diagonal (see page 3 of attached).
+If you plot the evolution of the analog sorting ODE w.r.t. time, the values of the ODE at integer time steps is the QR algorithm.
+(The double bracket ODE generalizes the QR algorithm, like how the Gamma function generalizes the factorial.)
 It's a well-known effect that the QR algorithm orders the eigenvalues down the diagonal; but few researchers have pointed out that this may be useful in itself, for sorting.
 It seems that the QR algorithm is the only major eigenvalue / eigenvector algorithm that does this ordering.
-
-The matrix N of the natural numbers happens to make [H,N] have the form B on page 37 of Bloch & Rojo.
-Now, we can say that matrix N is the way it is just to make the HN-NH have a special shape.
-But, on the other hand, N, being a matrix of integers, is the only participant in this system that has "discreteness." Otherwise the system is all real numbers evolving in continuous-time.
-
-I like how you point out that the Toda flow is a Hamiltonian system.
-Hamiltonian systems have specialized ODE solvers called symplectic solvers.
-
-https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.qr.html
-http://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode
-http://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html
-
-Brockett p802 H(0) and N play dual roles. There are two ways to set up the sorter
-Way 1:
-H(0) is the tridiagonal, with the stuff we want to sort on the diagonal. Off diagonal, some small values. N is diagonal matrix of the natural numbers.
-Way 2:
-N is diagonal matrix of the stuff we want to sort.
-
-
-
-
-Background:
-I've identified two papers and one webpage that provide background info on the idea.
-http://hrl.harvard.edu/analog/
-The two papers are attached.
-What's exciting about this idea is it solves a deeply discrete problem using continuous methods. Furthermore, aside from this collection of references, the idea hasn't been explored elsewhere.
 
 The way it works is roughly as follows:
 We set up a vector x, consisting of real numbers in a jumbled order.
@@ -34,17 +28,88 @@ We set up a special ODE that involves the vector x, and another vector consistin
 This ODE can be solved on an analog computer.
 The final steady state of the analog output would have the original elements of the vector x, but now in sorted order. For example, the first integrator would have the lowest magnitude element of x.
 
-Area and time cost:
-If we'd like to sort a set of size N, the hardware area cost scales linearly by N.
-In terms of time cost, the time cost grows at least linearly with N, since that is the propagation delay between units. I don't know what would be the time cost due to waiting for the system to converge.
+Brockett
+a) understand how exactly the system of ODE functions
+b) understand the proofs in Brockett on a more intuitive level
+c) finding out how H changes as t tends to infinity
 
-I'd be looking for a BS/MS student who is comfortable with linear algebra, ordinary differential equations, and algorithms.
-We would first validate that the sorting functionality works at all using the HCDC and in an ODE solver.
-Then, we need to get an idea of how quickly the analog solver converges, and how this compares to discrete algorithms.
+Brockett p802 H(0) and N play dual roles. There are two ways to set up the sorter
+Way 1:
+H(0) is the tridiagonal, with the stuff we want to sort on the diagonal. Off diagonal, some small values. N is diagonal matrix of the natural numbers.
+Way 2:
+N is diagonal matrix of the stuff we want to sort.
 
-sorting
-wiring
-analog sort
-brockett
-double bracket flow
-“double bracket”
+The basic idea of analog sorting is to construct matrix H(t=0) with the real numbers we want to sort on the diagonal. Naturally H(t=0) has eigenvalues consisting of the same real numbers.
+Running the QR algorithm preserves the eigenvalues of H(t), but it reorders the elements on the diagonal to the sorted sequence.
+
+finite toda lattice
+Bloch and Rojo: Section 3.2 of Bloch and Rojo paper says the Toda flow preserves the eigenvalues. This seems to be the main connection to the QR algorithm, which also preserves eigenvalues across iterations.
+equivalently, the Toda flow is
+dX/dt = [X(t), pi_0(X(t))]
+=X(t) pi_0(X(t)) - pi_0(X(t)) X(t)
+
+where pi_0 = X^- - X^{-T}
+where X^- is the lower triangular part
+
+It's still unclear to me:
+1. What's the role of the off-diagonal parts of the symmetric, tridiagonal H. Brockett tells us to put some small values there to kick off the algorithm.
+2. What's the role of the matrix of the natural numbers N.
+
+The matrix N of the natural numbers happens to make [H,N] have the form B on page 37 of Bloch & Rojo.
+Now, we can say that matrix N is the way it is just to make the HN-NH have a special shape.
+But, on the other hand, N, being a matrix of integers, is the only participant in this system that has "discreteness." Otherwise the system is all real numbers evolving in continuous-time.
+
+
+Hamiltonian systems
+I like how you point out that the Toda flow is a Hamiltonian system.
+Hamiltonian systems have specialized ODE solvers called symplectic solvers.
+hamiltonian system
+p is momentum
+q is position
+dp/dt = -dH/dq
+dq/dt = dH/dp
+x and p encode what you want to sort
+
+
+
+Methodology
+Understanding why the ODE sorts: The steps to this goal would be to
+d) finding specific examples and going through see exactly how the solution unfolds.
+Experiment using analog chip and simulation (ODE solver). This would also be in connection with finding some examples of H and N to plug in.
+
+Experiment using analog chip and simulation (ODE solver). This would also be in connection with finding some examples of H and N to plug in.
+Python's NumPy would be a good fit for this project.
+The code here
+https://github.com/mandli/intro-numerical-methods/blob/master/09_ODE_ivp.ipynb
+Would be a good starting point for the simulation. 
+
+Evaluation
+Evaluation
+a) How does analog sorting compare to other sorting algorithms for example quick, merge etc in terms of complexity?
+
+Time cost of analog sorting
+Time cost of overall QR loop
+	how many iterations of qr til convergence?
+	time to convergence of qr w.r.t.. problem size
+	Since we know the ODE is analogous to QR algorithm, they should take the same amount of time.
+Time cost of QR step
+	Numerical Recipes 3rd Edition p585 says the QR algorithm takes O(N) time for symmetric tridiagonal matrices.
+Time cost of analog sorting
+	In terms of time, the sorter takes at least O(N) time because of the time it takes just for signals to propagate across the circuit.
+	Another issue is the time it takes for the ODE to settle to its final value.
+
+Hardware cost of analog sorting
+The analog sorter takes up O(N) amount of circuit components to sort N elements.
+
+Applications
+Sorting is the underpinning of big data. Increasingly, approximate sorts are useful.
+Sorting as a discrete primitive in an otherwise entirely continuous model of computing
+Shows how to swap two values in an analog computer without using switch capacitors
+What's exciting about this idea is it solves a deeply discrete problem using continuous methods. Furthermore, aside from this collection of references, the idea hasn't been explored elsewhere.
+
+
+
+
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.qr.html
+http://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode
+http://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html
