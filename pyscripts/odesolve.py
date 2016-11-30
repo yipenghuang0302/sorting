@@ -1,7 +1,7 @@
 # Plot the solution that was generated
 import math
-import mathplotlib
-mathplotlib.use('Agg')
+import matplotlib
+matplotlib.use('Agg')
 from scipy.integrate import ode
 from scipy.integrate import odeint
 from numpy import loadtxt
