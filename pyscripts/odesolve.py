@@ -1,5 +1,6 @@
 # Plot the solution that was generated
 import math
+from scipy.integrate import ode
 from scipy.integrate import odeint
 from numpy import loadtxt
 from pylab import figure, plot, xlabel, grid, hold, legend, title, savefig, ylim
@@ -36,6 +37,12 @@ def getNum(n, dirpath):
   a = [x for x in info[2] if s in x]
   return len(a)/2
 
+def solout(t, y):
+  if t > 50:
+    return -1
+  else:
+    return 0
+
 def ode_sort(n, dirpath):
   # Initial conditions
   # x1 and x2 are the initial displacements; y1 and y2 are the initial velocities
@@ -48,8 +55,8 @@ def ode_sort(n, dirpath):
   # ODE solver parameters
   abserr = 1.0e-8
   relerr = 1.0e-6
-  stoptime = 20.0
-  numpoints = 300
+  stoptime = 100
+  numpoints = 400
 
   # Create the time samples for the output of the ODE solver.
   # I use a large number of points, only because I want to make
@@ -61,13 +68,15 @@ def ode_sort(n, dirpath):
   # Call the ODE solver.
   wsol = odeint(vectorfield, w0, t,
                 atol=abserr, rtol=relerr, mxstep = 500000)
-
   filename = str(n) + 'd_toda_' + str(getNum(n, dirpath))
   with open(dirpath + filename + '.dat', 'w') as f:
       # Print & save the solution.
       for t1, w1 in zip(t, wsol):
           print >> f, t1, ' '.join([str(w) for w in w1])
-          print t1, w1
+          #print t1, w1
+  with open(dirpath + filename + '_x.dat', 'w') as f:
+      for t1, w1 in zip(t, wsol):
+          print >> f, t1, ' '.join([str(w) for w in w1][0::2])
   return filename
 
 def graph(dirpath, filename):
@@ -93,11 +102,40 @@ def graph(dirpath, filename):
   title(filename)
   savefig(dirpath + filename + '.png', dpi=100)
 
+def iterate(dirpath, filename, n):
+  rows = open(dirpath + filename + '_x.dat', 'r')
+  prev = None
+  time = 0
+  for line in rows:
+    arr = line.split(" ")
+    for x in arr:
+      x = x.replace('\n','')
+    xvalues = [float(x) for x in arr]
+    i = 1
+    good = True
 
+    if not prev==None:
+      while(i < len(xvalues) - 1 and good):
+        if xvalues[i] < xvalues[i+1] or abs(prev[i]-xvalues[i]) > 0.1:
+          good = False
+        i = i + 1
+      if abs(prev[i]-xvalues[i]) > 0.1:
+        good = False
+      if good:
+        time = xvalues[0]
+        break
+
+    prev = xvalues
+
+  with open('n_t.txt', 'a') as f:
+    print >> f, n, time
 
 def main():
   dirpath = 'Graphs/'
-  graph(dirpath, ode_sort(100, dirpath))
+  for n in range(300):
+    filename = ode_sort(n/6, dirpath)
+    graph(dirpath, filename)
+    iterate(dirpath, filename, n/6)
 
 if __name__ == "__main__":
   main()
