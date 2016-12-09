@@ -1,0 +1,68 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{Toda Lattice, Role of $N$ and $y_k$}
+\author{Lusa Zhan}
+\date{November 2016}
+
+\begin{document}
+
+\maketitle
+
+\section{Role of $N$}
+In order to understand the role of $N$ fully, we need to consider \textit{Theorem 1.5} in Helmke and Moore. To summarize for our purposes, the theorem states the following: 
+
+Given $H = [H,[H,N]]$ for each $N$, converges to an equilibrium as $t\rightarrow \infty$. If $N=\diag (\mu_1 , \dots , \mu_n)$ where $\mu_1 > \dots > \mu_n$, then the Hessian of $f_N(H) = \frac{1}{2}\|N-H\|^2$ is nonsingular and negative definite. 
+
+That means that the linearization at a critical point is 
+
+\[\dot \xi_{ij} = -(\lambda_{\pi(i)}-\lambda_{\pi(j)})(\mu_i-\mu_j)\xi_{ij}\]
+
+where $\xi = [H_\infty, N]$. Since the Hessian is negative definite, $\xi$ must be at the max, so $H_\infty$ must be sorted. 
+
+
+
+\section{Role of $y_k$}
+This section aims to explain the choice of initial values for the $y_k$'s to start the algorithm.
+
+First of all, as mentioned previously, $y_0=y_n=0$.
+To analyze the initial values of $y_k$, we consider the relation to $\dot x_k$. To recall, 
+
+\begin{align*}
+    \dot{x_k} &=  2y^2_k-2y^2_{k-1} \\
+    \dot{y_k} &= y_k(x_{k+1}-x_k) 
+\end{align*}
+
+If $y_k=0$, then $\dot x_k$ would be 0, meaning $x_k(t) = x_k(0), \forall t$. This means that the values along the diagonal of $H$ will remain constant and never get sorted. 
+
+In addition, the $y_k$ values should be as small as possible (but still positive). Recall that the eigenvalues will be the values along the diagonal of $H$ as $t\rightarrow \infty$. Consider the determinant $f_n = \det (H-\lambda I)$, where $n$ is the size of the matrix. Since $H$ is a tridiagonal matrix, this determinant can be formulated using a recurrence relation on the size of the matrix $n$.
+
+\begin{align*}
+f_n &= (x_n-\lambda)f_{n-1}-y_{n-1}^2f_{n-2} \\
+f_1 &= x_1-\lambda
+\end{align*}
+
+We can use this to calculate the first few $f_n$ and set them to $0$ (what we would do to calculate the eigenvalues):
+
+\begin{align*}
+f_1 &= x_1-\lambda = 0\\
+f_2 &= (x_2-\lambda)(x_1-\lambda)-y_1^2 = 0\\
+f_3 &= (x_3-\lambda)(x_2-\lambda)(x_1-\lambda)-(x_3-\lambda)y_1^2-(x_1-\lambda)y^2_2 = 0
+\end{align*}
+
+Intuitively, the eigenvalues will be closest to $x_k$ if the $y_k$ values are smaller. 
+
+
+\section{Related work}
+Below is a list of articles that are related to this topic: 
+\begin{itemize}
+
+\item{
+    Brockett, R.w. ``Dynamical Systems That Sort Lists, Diagonalize Matrices, and Solve Linear Programming Problems.'' Linear Algebra and Its Applications 146 (1991): 79-91. }
+\item{
+    Helmke, Uwe, and John B. Moore. ``Double Bracket Isospectral Flows.'' Optimization and Dynamical Systems. London: Springer-Verlag, 1994. 43-80. Print.}
+\end{itemize}
+
+
+\end{document}
