@@ -1,19 +1,19 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath}
+%\documentclass{article}
+%\usepackage[utf8]{inputenc}
+%\usepackage{amsmath}
 
-\title{Toda Lattice, Role of $N$ and $y_k$}
-\author{Lusa Zhan}
-\date{November 2016}
+%\title{Toda Lattice, Role of $N$ and $y_k$}
+%\author{Lusa Zhan}
+%\date{November 2016}
 
-\begin{document}
+%\begin{document}
 
-\maketitle
+%\maketitle
 
-\section{Role of $N$}
+\subsection{Role of $N$}
 In order to understand the role of $N$ fully, we need to consider \textit{Theorem 1.5} in Helmke and Moore. To summarize for our purposes, the theorem states the following: 
 
-Given $H = [H,[H,N]]$ for each $N$, converges to an equilibrium as $t\rightarrow \infty$. If $N=\diag (\mu_1 , \dots , \mu_n)$ where $\mu_1 > \dots > \mu_n$, then the Hessian of $f_N(H) = \frac{1}{2}\|N-H\|^2$ is nonsingular and negative definite. 
+Given $H = [H,[H,N]]$ for each $N$, converges to an equilibrium as $t\rightarrow \infty$. If $N=\text{diag} (\mu_1 , \dots , \mu_n)$ where $\mu_1 > \dots > \mu_n$, then the Hessian of $f_N(H) = \frac{1}{2}\|N-H\|^2$ is nonsingular and negative definite. 
 
 That means that the linearization at a critical point is 
 
@@ -23,7 +23,7 @@ where $\xi = [H_\infty, N]$. Since the Hessian is negative definite, $\xi$ must 
 
 
 
-\section{Role of $y_k$}
+\subsection{Role of $y_k$}
 This section aims to explain the choice of initial values for the $y_k$'s to start the algorithm.
 
 First of all, as mentioned previously, $y_0=y_n=0$.
@@ -54,15 +54,15 @@ f_3 &= (x_3-\lambda)(x_2-\lambda)(x_1-\lambda)-(x_3-\lambda)y_1^2-(x_1-\lambda)y
 Intuitively, the eigenvalues will be closest to $x_k$ if the $y_k$ values are smaller. 
 
 
-\section{Related work}
-Below is a list of articles that are related to this topic: 
-\begin{itemize}
+%\section{Related work}
+%Below is a list of articles that are related to this topic: 
+%\begin{itemize}
 
-\item{
-    Brockett, R.w. ``Dynamical Systems That Sort Lists, Diagonalize Matrices, and Solve Linear Programming Problems.'' Linear Algebra and Its Applications 146 (1991): 79-91. }
-\item{
-    Helmke, Uwe, and John B. Moore. ``Double Bracket Isospectral Flows.'' Optimization and Dynamical Systems. London: Springer-Verlag, 1994. 43-80. Print.}
-\end{itemize}
+%\item{
+%    Brockett, R.w. ``Dynamical Systems That Sort Lists, Diagonalize Matrices, and Solve Linear Programming Problems.'' Linear Algebra and Its Applications 146 (1991): 79-91. }
+%\item{
+%    Helmke, Uwe, and John B. Moore. ``Double Bracket Isospectral Flows.'' Optimization and Dynamical Systems. London: Springer-Verlag, 1994. 43-80. Print.}
+%\end{itemize}
 
 
-\end{document}
+%\end{document}
