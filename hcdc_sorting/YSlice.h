@@ -4,10 +4,10 @@
 // 1 integrator
 // 1 multiplier
 // 1 fanout
-class y {
+class YSlice {
 
   public:
-    y (
+    YSlice (
       Fabric::Chip::Tile::Slice & slice,
       unsigned char initial // initial condition for integrator
     ) :
@@ -35,7 +35,7 @@ class y {
       Serial.println("y ctor");
     };
 
-    ~y () {
+    ~YSlice () {
       slice.integrator->setEnable(false);
       slice.fans[0].setThird(false);
       slice.fans[0].setEnable(false);
