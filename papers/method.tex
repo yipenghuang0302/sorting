@@ -1,6 +1,9 @@
 We validate the functionality of analog sorting using a prototype analog computer chip.
 In order to explore how analog sorting works in larger systems, we use an ODE solver built on the odeint solver in the Python SciPy library.
 
+For the ODE solver, we first construct an array of variables, an array of the ODEs from (5), and an array of initial values, which we supply to SciPy's odeint. The initial values for $x$ are randomly chosen from a dynamic range using randint from Python's random package. The initial $y$ values are set at 0.9. SciPy's odeint returns the values of $x$ and $y$ at each specified time interval of 0.04 seconds. The data is used to plot graphs, but also to determine when the $x$ values have settled in at their final value. This is based on how much each $x$ changes between time intervals.
+
+
 % The code here
 % https://github.com/mandli/intro-numerical-methods/blob/master/09_ODE_ivp.ipynb
 % Would be a good starting point for the simulation. 

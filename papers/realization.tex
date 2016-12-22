@@ -5,7 +5,7 @@ The analog sorter works as follows:
 We construct matrix H(t=0) with the real numbers we want to sort on the diagonal.
 Naturally H(t=0) has eigenvalues consisting of the same real numbers.
 We set up a special ODE that involves the vector x, and another vector consisting of the natural numbers.
-This vector of the natural numbers provides the "discreteness" for the algorithm.
+This vector of the natural numbers provides the ``discreteness'' for the algorithm.
 Specifically, this ODE is the finite Toda lattice ODE, which preserves the eigenvalues of H(t), while reordering the elements on the diagonal to the sorted sequence.
 This solve this ODE on an analog computer.
 The final steady state of the analog output would have the original elements of the vector x, but now in sorted order.

@@ -47,7 +47,6 @@
 
 \documentclass{sig-alternate-05-2015}
 
-
 \begin{document}
 
 % Copyright
@@ -148,6 +147,13 @@ Yipeng Huang\\
 
 \maketitle
 \begin{abstract}
+
+This work analyzes the theory behind analog sorting using the Toda lattice system
+and compares its performance against that of other popular sorting algorithms.
+It discusses the roles of the variables in the Toda lattice system and how they drive 
+the sorting mechanism. Testing and simulations validate the functionality of analog sorting and
+allow for a preliminary estimate of its performance.
+
 \end{abstract}
 
 
@@ -202,7 +208,7 @@ Yipeng Huang\\
 \keywords{linear algebra; ordinary differential equations; algorithms}
 
 \section{Introduction}
-
+\input{intro}
 \section{Background}
 \subsection{Classical sorting algorithms}
 \input{sorting}
@@ -210,7 +216,7 @@ Yipeng Huang\\
 \input{qr}
 \subsection{Hamiltonian systems}
 \input{hamiltonian}
-\subsection{Toda lattice, double bracket}
+\subsection{Toda lattice - Double bracket}
 \input{toda}
 \subsection{Realizing the analog sorter}
 \input{realizing}
@@ -218,7 +224,7 @@ Yipeng Huang\\
 \section{Methodology}
 \input{method}
 
-\section{Evalution}
+\section{Evaluation}
 \input{eval}
 
 \section{Applications \& conclusions}
