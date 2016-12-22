@@ -3,7 +3,7 @@
 
 #include "XSlice.h"
 #include "YSlice.h"
-#include "SortingTile.h"
+//#include "SortingTile.h"
 
 Fabric * fabric;
 
@@ -61,8 +61,8 @@ void setup() {
   // delete[] cells;
   while (true) {
 
-    for (short x0Init = 0; x0Init < 256; x0Init += 32) {
-      for (short x1Init = 0; x1Init < 256; x1Init += 32) {
+    for (short x0Init = 0; x0Init < 256; x0Init += 8) {
+      for (short x1Init = 0; x1Init < 256; x1Init += 8) {
         x0.setInitial(x0Init);
         x1.setInitial(x1Init);
         fabric->serialOutReq();

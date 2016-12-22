@@ -4,10 +4,10 @@
 // 1 integrator
 // 1 multiplier
 // 2 fanout
-class x {
+class XSlice {
 
   public:
-    x (
+    XSlice (
       Fabric::Chip::Tile::Slice & slice,
       unsigned char initial // initial condition for integrator
     ) :
@@ -37,7 +37,7 @@ class x {
       Serial.println("x ctor");
     }
 
-    ~x () {
+    ~XSlice () {
       slice.integrator->setEnable(false);
       slice.fans[0].out1->setInv(false);
       slice.fans[0].setEnable(false);
