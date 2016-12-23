@@ -1,6 +1,6 @@
 After testing analog sorting on a prototype analog computer chip and simulating the process using an ODE solver, we can evaluate its time and space complexity. 
 
-Compared to the other sorting algorithms mentioned at the beginning of the paper, analog sorting performs better in terms of time complexity. However, due to the nature of circuits, it is not as space efficient as most other popular sorting algorithms.
+Compared to the other sorting algorithms mentioned at the beginning of the paper, analog sorting is competitive in terms of time complexity. However, due to the nature of circuits, it is not as space efficient as most other popular sorting algorithms.
 
 \subsection{Functionality validation of analog sorting}
 
@@ -12,7 +12,7 @@ Compared to the other sorting algorithms mentioned at the beginning of the paper
 
 We see in Figure 1, generated from the ODE solver, that the sorting system has periods of swapping, interspersed in quiet periods of little change. The ODE solver was used on a 10 element vector. 
 
-The output of the analog chip, run on two variables and over multiple loops, is shown in the below image.
+The output of the analog chip, run on two variables and over multiple loops, is shown in Figure 2.
 
 \begin{figure}[h]
 \centering
@@ -20,15 +20,22 @@ The output of the analog chip, run on two variables and over multiple loops, is 
 \caption{Sorted 2 elements using analog computer chip.}
 \end{figure}
 
- 
+This confirms that the values on the diagonals will converge towards a final value.
+
 
 \subsection{Time cost of the discrete QR algorithm}
-Time cost of overall QR loop:
-	how many iterations of qr til convergence?
+Since the analog sorting method is the continuous version of the QR algorithm, there might be a correlation between their time complexities as well. 
+
+In essence, our analog sorter takes a tridiagonal matrix $H$ and sorts the eigenvalues along the diagonal in descending order. Press explains that the QR algorithm takes $O(N)$ time for a tridiagonal $N\times N$ matrix. 
+
+The assumption is that the time complexity of analog sorting will also be in that range.
+
+%Time cost of overall QR loop:
+	%how many iterations of qr til convergence?
 	% time to convergence of qr w.r.t.. problem size
-	Since we know the ODE is analogous to QR algorithm, they should take the same amount of time.
-Time cost of QR step:
-	Numerical Recipes 3rd Edition p585 says the QR algorithm takes $O(N)$ time for symmetric tridiagonal matrices.
+	%Since we know the ODE is analogous to QR algorithm, they should take the same amount of time.
+%Time cost of QR step:
+	%Numerical Recipes 3rd Edition p585 says the QR algorithm takes $O(N)$ time for symmetric tridiagonal matrices.
 
 \subsection{Time cost of analog sorting}
 
@@ -61,6 +68,7 @@ Another possible factor for solution time to consider is the dynamic range of th
 Analog sorting on the chip relies on the hardware components needed to build the circuit. 
 We need a constant amount of components for each of the $N$ ODEs.
 Thus, the analog sorter takes up $O(N)$ amount of circuit components to sort $N$ elements.
+
 
 \subsection{Limitations}
 

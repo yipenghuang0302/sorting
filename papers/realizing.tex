@@ -1,8 +1,9 @@
+We validate the functionality of analog sorting using a prototype analog computer chip.
 After reviewing the mathematics of analog sorting, we now discuss how the analog sorter is put in practice.
 
 The analog sorter works as follows:
 % We set up a vector x, consisting of real numbers in a jumbled order.
-We construct matrix $H(t=0)$ with the real numbers we want to sort on the diagonal.
+We construct matrix $H(t=0)$ with the real numbers we want to sort on the diagonal and some small values on the off-diagonals.
 Naturally $H(t=0)$ has eigenvalues consisting of the same real numbers.
 We set up a special ODE that involves the vector $x$, and another vector consisting of the natural numbers.
 This vector of the natural numbers provides the ``discreteness'' for the algorithm.

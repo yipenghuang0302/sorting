@@ -13,28 +13,27 @@
 
 % \section{Equivalence between ODE and Lie bracket notation}
 
-The central idea of analog sorting as described in the papers is using the Toda Lattice, which is described using the Hamiltonian
+The central idea of analog sorting as described in ~\cite{bloch, brockett} makes use of the Toda lattice. The system of Hamiltonian equations in (1) associated with the Hamiltonian in (2) gives us the following set of equations
+\begin{align*}
+\dot{p_k} &= \exp(q_{k-1}-q_{k})-\exp(q_{k}-q_{k+1}) \\
+\dot{q_k} &= p_k
+\end{align*}
+where $\exp(x_0-x_1)=\exp (x_n-x_{n+1})=0$.
 
-\[ H(p,q) = \frac{1}{2} \sum^{n}_{1}p_k^2 + \sum^{n-1}_{1}exp(q_k-q_{k+1})\]
+This system is also analogous to the double bracket notation 
+\begin{align}
+\dot{H} = [H,[H,N]]
+\end{align}
 
-A system of equations are associated with this, defined as the Hamiltonian equations (can be derived using total differential)
+where the brackets stand for the Lie bracket $[A,B] = AB-BA$. The connection between the Hamiltonian system  and the double bracket notation of the Toda lattice will be discussed and outlined in the following sections.
 
-\[\dot{p_k} = -\frac{\partial H}{\partial q_k}\]
-\[\dot{q_k} = \frac{\partial H}{\partial p_k}.\]
+\subsubsection{Toda lattice - ODE form}
 
-Calculating this, we get
-
-\[\dot{p_k} = exp(q_{k-1}-q_{k})-exp(q_{k}-q_{k+1}) \]
-\[\dot{q_k} = p_k\]
-
-where $e^{x_0-x_1}=e^{x_n-x_{n+1}}=0$
-
-\subsection{Toda Lattice - ODE form}
-
-This system of ODEs can  be changed to the system described in (http://hrl.harvard.edu/analog/) using a change of variables.
-
-\[x_k = -\frac{1}{2}p_k\]
-\[y_k = \frac{1}{2}e^{(q_k-q_{k+1})/2}\]
+The above system of ordinary differential equations can be transformed into the system described in ~\cite{harvard_robo} using a change of variables.
+\begin{align}
+x_k &= -\frac{1}{2}p_k \nonumber \\
+y_k &= \frac{1}{2}\exp(\frac{q_k-q_{k+1}}{2})
+\end{align}
 
 In that case, 
 \begin{align*}
@@ -45,41 +44,48 @@ In that case,
 \end{align*}
 
 and 
-
 \begin{align*}
-    \dot{y_k} &= \frac{1}{2}e^{(q_k-q_{k+1})/2}(\frac{\dot q_k-\dot q_{k+1}}{2}) \\
-              &= y_k\frac{p_k-\dot p_{k+1}}{2} \\
+    \dot{y_k} &= \frac{1}{2}\exp(\frac{q_k-q_{k+1}}{2})\frac{\dot q_k-\dot q_{k+1}}{2} \\
+              &= y_k\frac{p_k-p_{k+1}}{2} \\
               &= y_k(x_{k+1}-x_k) 
 \end{align*}
 
-Taking into account the boundary conditions $y_0=y_n=0$ and we get the desired system of ODEs.
+Taking into account the boundary conditions $y_0=y_n=0$, we get the desired system of ODEs with
+\begin{align}
+    \dot{x_k} &= 2y^2_k-2y^2_{k-1} \nonumber \\
+    \dot{y_k} &= y_k(x_{k+1}-x_k) \\
+    y_0 &= y_n = 0 \nonumber
+\end{align}
 
-\subsection{Toda Lattice - Jacobi Matrix}
+This is the system of ODEs we will solve in the analog chip and in our simulations.
 
-The connection to the Double Bracket notation can be made through the Jacobi Matrix form of the Toda Lattice. The Jacobi Matrix is given by
 
-\[ H = \begin{bmatrix}
+\subsubsection{Toda lattice - Jacobi matrix}
+
+The connection between the Toda lattice and the double bracket notation $\dot{H} = [H,[H,N]]$ can be made through the Jacobi Matrix form of the Toda lattice. The Jacobi matrix for the Hamiltonian system after the change of variables (4) is given by
+\begin{align}
+ H = \begin{bmatrix}
     x_{1} & y_{1} & 0  & \dots & 0 \\
     y_{1} & x_{2} & y_{2} & \dots & 0 \\
      & & \ddots & \\
           &       & y_{n-2} & x_{n-1} & y_{n-1}\\
     0 & \hdots & & y_{n-1} & x_{n}
-\end{bmatrix}\]
+\end{bmatrix}
+\end{align}
+This is the form of $H$ required for analog sorting as outlined by Brockett in ~\cite{brockett}.
 
-This is also the form that $H$ is in for analog sorting.
+In order to get the double bracket form, we need a diagonal matrix $N = \text{diag}(n, n-1, \dots, 1)$ whose role will be discussed in 2.5.1.
 
-In order to get the double bracket form, we need a diagonal matrix $N = diag(n, n-1, \dots, 1)$, so we need 
-
-\[
+\begin{align*}
 N = \begin{bmatrix}
         n & 0 & \hdots & 0 \\
         0 & n-1 & \\
         \vdots &  & \ddots & \vdots \\
         0 & \hdots & & 1
     \end{bmatrix}
-\]
+\end{align*}
 
-We then get 
+From this, we can calculate $[H[H,N]] = H[H,N]-[H,N]H$ step by step:
 
 \[ 
 HN = \begin{bmatrix}
@@ -116,53 +122,49 @@ HN-NH = \begin{bmatrix}
 
 \[ 
 H[H,N] = \begin{bmatrix}
-        y_1^2 & -x_1y_1 & -y_1y_2 & 0 &\hdots & 0 \\
-        x_2y_1 & -y_1^2+y^2_2 & -x_2y_2 & 0 &\hdots & \\
-        y_1y_2 & \ddots & & \ddots & & 0\\
-        \vdots &  &  &  & y^2_{n-1}-y^2_{n-2} & -x_{n-1}y_{n-1} \\
-        0 & \hdots & & & x_ny_{n-1} & -y^2_{n-1}
+        y_1^2 & -x_1y_1 & \hdots & 0 \\
+        x_2y_1 & -y_1^2+y^2_2 &\hdots & 0 \\
+        y_1y_2 & \ddots & & 0\\
+        \vdots & & y^2_{n-1}-y^2_{n-2} & -x_{n-1}y_{n-1} \\
+        0 & \hdots & x_ny_{n-1} & -y^2_{n-1}
 
     \end{bmatrix}
 \]
 
 \[ 
 [H,N]H = \begin{bmatrix}
-        y_1^2 & -x_2y_1 & -y_1y_2 & 0 &\hdots & 0 \\
-        x_1y_1 & y_1^2-y^2_2 & -x_3y_2 & 0 &\hdots & \\
-        y_1y_2 & \ddots & & \ddots & & 0\\
-        \vdots &  &  &  & -y^2_{n-1}+y^2_{n-2} & -x_{n}y_{n-1} \\
-        0 & \hdots & & & x_{n-1}y_{n-1} & y^2_{n-1}
+        y_1^2 & -x_2y_1 & \hdots & 0 \\
+        x_1y_1 & y_1^2-y^2_2 &\hdots & 0 \\
+        y_1y_2 & \ddots & & 0\\
+        \vdots &  & -y^2_{n-1}+y^2_{n-2} & -x_{n}y_{n-1} \\
+        0 & \hdots & x_{n-1}y_{n-1} & y^2_{n-1}
 
     \end{bmatrix}
 \]
+\\
 
-Therefore, we get 
-\[ 
-[H,[H,N]] = \begin{bmatrix}
-        2y_1^2 & y_1(x_2-x_1) & 0 & &\hdots & 0 \\
-        y_1(x_2-x_1) & -2y_1^2+2y^2_2 & y_2(x_3-x_2) & 0 &\hdots & \\
-        0 & \ddots & & \ddots & & 0\\
-        \vdots &  &  &  & 2y^2_{n-1}-2y^2_{n-2} & y_{n-1}(x_{n}-x_{n-1}) \\
-        0 & \hdots & & & y_{n-1}(x_{n}-x_{n-1} & -2y^2_{n-1}
+Therefore, we get \\
 
-    \end{bmatrix}
+\[[H,[H,N]] = 
+\begin{bmatrix}
+    2y_1^2 & y_1(x_2-x_1) & 0 \\
+    y_1(x_2-x_1) & -2(y_1^2-y^2_2) & 0\\
+    0 & \ddots & 0\\
+    \vdots & & y_{n-1}(x_{n}-x_{n-1}) \\
+    0 & \hdots & -2y^2_{n-1}
+\end{bmatrix}
 \]
 
-which is exactly $\dot{H}$
-
-%\section{Related work}
-
-%Below is a list of articles that are related to this topic: 
-%\begin{itemize}
-
-%\item{
-%    Bloch, Anthony M., and Alberto G. Rojo. ``Sorting: The Gauss Thermostat, the Toda Lattice and Double Bracket Equations,.'' \textit{Three Decades of Progress in Control Sciences} (2010): 35-48. }
-%\item{
-%    Guseinov, Gusein Sh. ``A Class of Complex Solutions to the Finite Toda Lattice.'' \textit{Mathematical and Computer Modelling} 57.5-6 (2013): 1190-202.}
+This is equivalent to the result we get from combining the matrix form of $H$ with the values for $\dot{x}$ and $\dot{y}$
+\[\dot{H} = \begin{bmatrix}
+    \dot{x}_{1} & \dot{y}_{1} & 0  & \dots & 0 \\
+    \dot{y}_{1} & \dot{x}_{2} & \dot{y}_{2} & \dots & 0 \\
+     & & \ddots & \\
+     & & \dot{y}_{n-2} & \dot{x}_{n-1} & \dot{y}_{n-1}\\
+    0 & \hdots & & \dot{y}_{n-1} & \dot{x}_{n}
     
-%\item{
-%    Tomei, Carlos. ``The Toda Lattice, Old and New.'' \textit{JGM Journal of Geometric Mechanics} 5.4 (2013): 511-30. Web.}
-%\end{itemize}
+\end{bmatrix}\]
+
+In total, we conclude that the double bracket notation of the Toda lattice used in other papers is analogous to the system of ODEs. We use the equivalent system of ODEs to construct the analog sorter.
 
 
-% \end{document}
