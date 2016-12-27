@@ -1,14 +1,14 @@
 \newcommand*{\hham}{\hat{\mathcal{H}}}
 The finite Toda lattice system of ODEs that our analog sorter relies on belongs to special class of ODEs called Hamiltonian systems.
-Hamiltonian systems are an important and efficient way to describe classical mechanics.
+Hamiltonian systems are an important and efficient way to describe mechanics.
 Because of their importance, special ODE solvers called symplectic solvers have been developed specifically to solve Hamiltonian systems.
 
 A Hamiltonian system is characterized by a total energy scalar $\hham$.
 The components of the system are described by vectors $p$ for momenta and $q$ for positions.
 The system obeys the laws of motion:
 \begin{align}
-\frac{dp}{dt} = -\frac{dH}{dq} = f(q) \qquad \qquad
-\frac{dq}{dt} = \frac{dH}{dp} = g(p)
+\frac{dp}{dt} = -\frac{d\hham}{dq} = f(q) \qquad \qquad
+\frac{dq}{dt} = \frac{d\hham}{dp} = g(p)
 \end{align}
 
 % x and p encode what you want to sort

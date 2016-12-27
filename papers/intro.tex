@@ -1,6 +1,12 @@
-The focus of this paper is on an analog sorting algorithm that is deeply connected to the Toda Lattice system.
-
+The focus of this paper is on an analog sorting algorithm done on an analog computer, which operates in continuous time.
 In contrast to well-known sorting algorithms such as merge or quick sort, 
-the analog algorithm discussed here sorts values in a continuous way. In fact, it is the continuous time equivalent of the QR algorithm. 
+the analog algorithm discussed here sorts analog values in a continuous way.
 
-The theory behind analog sorting relies on the Toda lattice, which has been thoroughly discussed by the mathematical community. Adding to the theory, this paper aims to show results of testing analog sorting on a chip and simulating the system using an ODE solver. Ultimately, we evaluate the complexity of analog sorting in comparison to other sorting algorithms.
+We draw from and synthesize multiple papers that discuss analog sorting from a math perspective.
+Roughly speaking, the analog sorting algorithm is an optimization problem, where the global optimum is the sorted state.
+The theory behind analog sorting relies on the Toda lattice, and has connections to the eigenvalue QR algorithm.
+While analog sorting has been discussed by the mathematical community, no prior work has attempted analog sorting in a physical analog computer.
+
+This paper aims to show results of testing analog sorting on a real analog computer chip, and in simulation using an ODE solver.
+From measurements, we compare the complexity of analog sorting to other sorting algorithms.
+We conclude by evaluating the usefulness of analog sorting for real-world problems.

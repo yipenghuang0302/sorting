@@ -1,0 +1,426 @@
+diff --git a/papers/eval.tex b/papers/eval.tex
+index 66838fb..6c68aa9 100644
+--- a/papers/eval.tex
++++ b/papers/eval.tex
+@@ -76,7 +76,7 @@ As mentioned before, the choice of initial $y$ values affects the sorting mechan
+ 
+ Setting the initial values for the off-diagonals to $0$ will prevent the algorithm from starting in the first place. Initial $y$ values that are too small may stop the algorithm mid-way and result in an approximate sorting with two elements being out of place. After the diagonal entries converge to their final state, the $y$ values are nonzero, but in the magnitude of less than $10^{30}$. How big the initial off-diagonal entries have to be might depend on the ratio of the numbers to sort.
+ 
+-Brockett mentions briefly that $H_\infty$ will be sorted in almost all cases, but does not elaborate on the exceptions ~\cite{brockett}.
++Brockett mentions briefly that $H_\infty$ will be sorted in almost all cases, but does not elaborate on the exceptions~\cite{brockett}.
+ 
+ 
+ % \begin{figure}
+diff --git a/papers/hamiltonian.tex b/papers/hamiltonian.tex
+index fd37b47..e3b5479 100644
+--- a/papers/hamiltonian.tex
++++ b/papers/hamiltonian.tex
+@@ -1,14 +1,14 @@
+ \newcommand*{\hham}{\hat{\mathcal{H}}}
+ The finite Toda lattice system of ODEs that our analog sorter relies on belongs to special class of ODEs called Hamiltonian systems.
+-Hamiltonian systems are an important and efficient way to describe classical mechanics.
++Hamiltonian systems are an important and efficient way to describe mechanics.
+ Because of their importance, special ODE solvers called symplectic solvers have been developed specifically to solve Hamiltonian systems.
+ 
+ A Hamiltonian system is characterized by a total energy scalar $\hham$.
+ The components of the system are described by vectors $p$ for momenta and $q$ for positions.
+ The system obeys the laws of motion:
+ \begin{align}
+-\frac{dp}{dt} = -\frac{dH}{dq} = f(q) \qquad \qquad
+-\frac{dq}{dt} = \frac{dH}{dp} = g(p)
++\frac{dp}{dt} = -\frac{d\hham}{dq} = f(q) \qquad \qquad
++\frac{dq}{dt} = \frac{d\hham}{dp} = g(p)
+ \end{align}
+ 
+ % x and p encode what you want to sort
+diff --git a/papers/intro.tex b/papers/intro.tex
+index c1d3b7d..17de395 100644
+--- a/papers/intro.tex
++++ b/papers/intro.tex
+@@ -1,6 +1,12 @@
+-The focus of this paper is on an analog sorting algorithm that is deeply connected to the Toda Lattice system.
+-
++The focus of this paper is on an analog sorting algorithm done on an analog computer, which operates in continuous time.
+ In contrast to well-known sorting algorithms such as merge or quick sort, 
+-the analog algorithm discussed here sorts values in a continuous way. In fact, it is the continuous time equivalent of the QR algorithm. 
++the analog algorithm discussed here sorts analog values in a continuous way.
++
++We draw from and synthesize multiple papers that discuss analog sorting from a math perspective.
++Roughly speaking, the analog sorting algorithm is an optimization problem, where the global optimum is the sorted state.
++The theory behind analog sorting relies on the Toda lattice, and has connections to the eigenvalue QR algorithm.
++While analog sorting has been discussed by the mathematical community, no prior work has attempted analog sorting in a physical analog computer.
+ 
+-The theory behind analog sorting relies on the Toda lattice, which has been thoroughly discussed by the mathematical community. Adding to the theory, this paper aims to show results of testing analog sorting on a chip and simulating the system using an ODE solver. Ultimately, we evaluate the complexity of analog sorting in comparison to other sorting algorithms.
++This paper aims to show results of testing analog sorting on a real analog computer chip, and in simulation using an ODE solver.
++From measurements, we compare the complexity of analog sorting to other sorting algorithms.
++We conclude by evaluating the usefulness of analog sorting for real-world problems.
+\ No newline at end of file
+diff --git a/papers/method.tex b/papers/method.tex
+index 737ae75..784901d 100644
+--- a/papers/method.tex
++++ b/papers/method.tex
+@@ -2,7 +2,7 @@
+ \input{realizing}
+ 
+ \subsection{Running the simulation}
+-In order to explore how analog sorting works in larger systems, we use an ODE solver built on the odeint solver in the Python SciPy library ~\cite{scipy}.
++In order to explore how analog sorting works in larger systems, we use an ODE solver built on the odeint solver in the Python SciPy library~\cite{scipy}.
+ We first construct an array of variables, an array of the ODEs from (5), and an array of initial values, which we supply to SciPy's odeint. The initial values for $x$ are randomly chosen from a dynamic range using randint from Python's random module. The initial $y$ values are set at 0.9. SciPy's odeint returns the values of $x$ and $y$ at each specified time interval of 0.04 seconds. 
+ 
+ The data is used to plot graphs, but also to determine when the $x$ values have settled in at their final value. 
+diff --git a/papers/paper.pdf b/papers/paper.pdf
+index 97c1300..5a5b578 100644
+Binary files a/papers/paper.pdf and b/papers/paper.pdf differ
+diff --git a/papers/qr.tex b/papers/qr.tex
+index 7a91634..d00cb0f 100644
+--- a/papers/qr.tex
++++ b/papers/qr.tex
+@@ -1,5 +1,5 @@
+ The analog sorting method we show is related to the classical QR algorithm.
+-While the QR algorithm is a discrete algorithm operating step-by-step, the analog sorting algorithm does so in continuous time~\cite{deift, chu_realization, chu_flows}.
++While the QR algorithm is a discrete algorithm operating step-by-step, the analog sorting algorithm does so in continuous time~\cite{chu_realization, chu_flows, deift}.
+ 
+ The QR algorithm finds the eigenvalues and eigenvectors of a square matrix.
+ The eigenvalue problem is as follows:
+diff --git a/papers/realizing.tex b/papers/realizing.tex
+index 549162a..df95e0e 100644
+--- a/papers/realizing.tex
++++ b/papers/realizing.tex
+@@ -8,7 +8,7 @@ Naturally $H(t=0)$ has eigenvalues consisting of the same real numbers.
+ We set up a special ODE that involves the vector $x$, and another vector consisting of the natural numbers.
+ This vector of the natural numbers provides the ``discreteness'' for the algorithm.
+ Specifically, this ODE is the finite Toda lattice ODE, which preserves the eigenvalues of $H(t)$, while reordering the elements on the diagonal to the sorted sequence.
+-This solves this ODE on an analog computer.
++This is the ODE we solve on an analog computer.
+ The final steady state of the analog output would have the original elements of the vector $x$, but now in sorted order.
+ For example, the first integrator would have the lowest magnitude element of $x$.
+ 
+diff --git a/papers/sig-alternate-sample.tex b/papers/sig-alternate-sample.tex
+deleted file mode 100755
+index 1fd90b5..0000000
+--- a/papers/sig-alternate-sample.tex
++++ /dev/null
+@@ -1,254 +0,0 @@
+-% This is "sig-alternate.tex" V2.1 April 2013
+-% This file should be compiled with V2.5 of "sig-alternate.cls" May 2012
+-%
+-% This example file demonstrates the use of the 'sig-alternate.cls'
+-% V2.5 LaTeX2e document class file. It is for those submitting
+-% articles to ACM Conference Proceedings WHO DO NOT WISH TO
+-% STRICTLY ADHERE TO THE SIGS (PUBS-BOARD-ENDORSED) STYLE.
+-% The 'sig-alternate.cls' file will produce a similar-looking,
+-% albeit, 'tighter' paper resulting in, invariably, fewer pages.
+-%
+-% ----------------------------------------------------------------------------------------------------------------
+-% This .tex file (and associated .cls V2.5) produces:
+-%       1) The Permission Statement
+-%       2) The Conference (location) Info information
+-%       3) The Copyright Line with ACM data
+-%       4) NO page numbers
+-%
+-% as against the acm_proc_article-sp.cls file which
+-% DOES NOT produce 1) thru' 3) above.
+-%
+-% Using 'sig-alternate.cls' you have control, however, from within
+-% the source .tex file, over both the CopyrightYear
+-% (defaulted to 200X) and the ACM Copyright Data
+-% (defaulted to X-XXXXX-XX-X/XX/XX).
+-% e.g.
+-% \CopyrightYear{2007} will cause 2007 to appear in the copyright line.
+-% \crdata{0-12345-67-8/90/12} will cause 0-12345-67-8/90/12 to appear in the copyright line.
+-%
+-% ---------------------------------------------------------------------------------------------------------------
+-% This .tex source is an example which *does* use
+-% the .bib file (from which the .bbl file % is produced).
+-% REMEMBER HOWEVER: After having produced the .bbl file,
+-% and prior to final submission, you *NEED* to 'insert'
+-% your .bbl file into your source .tex file so as to provide
+-% ONE 'self-contained' source file.
+-%
+-% ================= IF YOU HAVE QUESTIONS =======================
+-% Questions regarding the SIGS styles, SIGS policies and
+-% procedures, Conferences etc. should be sent to
+-% Adrienne Griscti (griscti@acm.org)
+-%
+-% Technical questions _only_ to
+-% Gerald Murray (murray@hq.acm.org)
+-% ===============================================================
+-%
+-% For tracking purposes - this is V2.0 - May 2012
+-
+-\documentclass{sig-alternate-05-2015}
+-
+-
+-\begin{document}
+-
+-% Copyright
+-\setcopyright{acmcopyright}
+-%\setcopyright{acmlicensed}
+-%\setcopyright{rightsretained}
+-%\setcopyright{usgov}
+-%\setcopyright{usgovmixed}
+-%\setcopyright{cagov}
+-%\setcopyright{cagovmixed}
+-
+-
+-% DOI
+-% \doi{10.475/123_4}
+-
+-% ISBN
+-% \isbn{123-4567-24-567/08/06}
+-
+-%Conference
+-% \conferenceinfo{PLDI '13}{June 16--19, 2013, Seattle, WA, USA}
+-
+-% \acmPrice{\$15.00}
+-
+-%
+-% --- Author Metadata here ---
+-% \conferenceinfo{WOODSTOCK}{'97 El Paso, Texas USA}
+-%\CopyrightYear{2007} % Allows default copyright year (20XX) to be over-ridden - IF NEED BE.
+-%\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
+-% --- End of Author Metadata ---
+-
+-\title{Analog Sorting}
+-\subtitle{Theory and evaluation}
+-%
+-% You need the command \numberofauthors to handle the 'placement
+-% and alignment' of the authors beneath the title.
+-%
+-% For aesthetic reasons, we recommend 'three authors at a time'
+-% i.e. three 'name/affiliation blocks' be placed beneath the title.
+-%
+-% NOTE: You are NOT restricted in how many 'rows' of
+-% "name/affiliations" may appear. We just ask that you restrict
+-% the number of 'columns' to three.
+-%
+-% Because of the available 'opening page real-estate'
+-% we ask you to refrain from putting more than six authors
+-% (two rows with three columns) beneath the article title.
+-% More than six makes the first-page appear very cluttered indeed.
+-%
+-% Use the \alignauthor commands to handle the names
+-% and affiliations for an 'aesthetic maximum' of six authors.
+-% Add names, affiliations, addresses for
+-% the seventh etc. author(s) as the argument for the
+-% \additionalauthors command.
+-% These 'additional authors' will be output/set for you
+-% without further effort on your part as the last section in
+-% the body of your article BEFORE References or any Appendices.
+-
+-\numberofauthors{2} %  in this sample file, there are a *total*
+-% of EIGHT authors. SIX appear on the 'first-page' (for formatting
+-% reasons) and the remaining two appear in the \additionalauthors section.
+-%
+-\author{
+-% You can go ahead and credit any number of authors here,
+-% e.g. one 'row of three' or two rows (consisting of one row of three
+-% and a second row of one, two or three).
+-%
+-% The command \alignauthor (no curly braces needed) should
+-% precede each author name, affiliation/snail-mail address and
+-% e-mail address. Additionally, tag each line of
+-% affiliation/address with \affaddr, and tag the
+-% e-mail address with \email.
+-%
+-% 1st. author
+-\alignauthor
+-Lusa Zhan\\
+-       \affaddr{Columbia University}\\
+-       \affaddr{Department of Computer Science}\\
+-       \affaddr{Department of Mathematics}\\
+-       \email{lz2371@columbia.edu}
+-% 2nd. author
+-\alignauthor
+-Yipeng Huang\\
+-       \affaddr{Columbia University}\\
+-       \affaddr{Department of Computer Science}\\
+-       \email{yipeng@cs.columbia.edu}
+-}
+-% There's nothing stopping you putting the seventh, eighth, etc.
+-% author on the opening page (as the 'third row') but we ask,
+-% for aesthetic reasons that you place these 'additional authors'
+-% in the \additional authors block, viz.
+-% \additionalauthors{Additional authors: John Smith (The Th{\o}rv{\"a}ld Group,
+-% email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
+-% (The Kumquat Consortium, email: {\texttt{jpkumquat@consortium.net}}).}
+-% \date{30 July 1999}
+-% Just remember to make sure that the TOTAL number of authors
+-% is the number that will appear on the first page PLUS the
+-% number that will appear in the \additionalauthors section.
+-
+-\maketitle
+-\begin{abstract}
+-\end{abstract}
+-
+-
+-%
+-% The code below should be generated by the tool at
+-% http://dl.acm.org/ccs.cfm
+-% Please copy and paste the code instead of the example below. 
+-%
+-% \begin{CCSXML}
+-% <ccs2012>
+-%  <concept>
+-%   <concept_id>10010520.10010553.10010562</concept_id>
+-%   <concept_desc>Computer systems organization~Embedded systems</concept_desc>
+-%   <concept_significance>500</concept_significance>
+-%  </concept>
+-%  <concept>
+-%   <concept_id>10010520.10010575.10010755</concept_id>
+-%   <concept_desc>Computer systems organization~Redundancy</concept_desc>
+-%   <concept_significance>300</concept_significance>
+-%  </concept>
+-%  <concept>
+-%   <concept_id>10010520.10010553.10010554</concept_id>
+-%   <concept_desc>Computer systems organization~Robotics</concept_desc>
+-%   <concept_significance>100</concept_significance>
+-%  </concept>
+-%  <concept>
+-%   <concept_id>10003033.10003083.10003095</concept_id>
+-%   <concept_desc>Networks~Network reliability</concept_desc>
+-%   <concept_significance>100</concept_significance>
+-%  </concept>
+-% </ccs2012>  
+-% \end{CCSXML}
+-
+-% \ccsdesc[500]{Computer systems organization~Embedded systems}
+-% \ccsdesc[300]{Computer systems organization~Redundancy}
+-% \ccsdesc{Computer systems organization~Robotics}
+-% \ccsdesc[100]{Networks~Network reliability}
+-
+-
+-%
+-% End generated code
+-%
+-
+-%
+-%  Use this command to print the description
+-%
+-% \printccsdesc
+-
+-% We no longer use \terms command
+-%\terms{Theory}
+-
+-\keywords{linear algebra; ordinary differential equations; algorithms}
+-
+-\section{Introduction}
+-
+-\section{Background}
+-\subsection{Classical sorting algorithms}
+-\input{sorting}
+-\subsection{The QR algorithm}
+-\input{qr}
+-\subsection{Hamiltonian systems}
+-\input{hamiltonian}
+-\subsection{Toda lattice, double bracket}
+-\input{toda}
+-\subsection{Realizing the analog sorter}
+-\input{realizing}
+-
+-\section{Methodology}
+-\input{method}
+-
+-\section{Evalution}
+-\input{eval}
+-
+-\section{Applications \& conclusions}
+-\input{apps}
+-
+-%ACKNOWLEDGMENTS are optional
+-\section{Acknowledgments}
+-This section is optional; it is a location for you
+-to acknowledge grants, funding, editing assistance and
+-what have you.  In the present case, for example, the
+-authors would like to thank Gerald Murray of ACM for
+-his help in codifying this \textit{Author's Guide}
+-and the \textbf{.cls} and \textbf{.tex} files that it describes.
+-
+-%
+-% The following two commands are all you need in the
+-% initial runs of your .tex file to
+-% produce the bibliography for the citations in your paper.
+-\bibliographystyle{abbrv}
+-\bibliography{paper}  % sigproc.bib is the name of the Bibliography in this case
+-% You must have a proper ".bib" file
+-%  and remember to run:
+-% latex bibtex latex latex
+-% to resolve all references
+-%
+-% ACM needs 'a single self-contained file'!
+-%
+-%APPENDICES are optional
+-%\balancecolumns
+-\appendix
+-%Appendix A
+-
+-\end{document}
+diff --git a/papers/sorting.tex b/papers/sorting.tex
+index c821dfc..70ec609 100644
+--- a/papers/sorting.tex
++++ b/papers/sorting.tex
+@@ -1,4 +1,4 @@
+-While digital sorting algorithms are efficient, no prior work has discussed what the time complexity of analog sorting. To get a sense of how analog sorting performs, we need a basis for comparison. Some of the classical sorting algorithms are merge sort or quick sort. Those generally have nonlinear time complexity, but quick sort has logarithmic space complexity. Table 1 lists some algorithms and their respective complexities.
++While digital sorting algorithms are efficient, no prior work has discussed what the time complexity of analog sorting. To get a sense of how analog sorting performs, we need a basis for comparison. Some of the classical sorting algorithms are merge sort or quick sort. Those generally have sublinear time complexity. Table 1 lists some algorithms and their respective complexities.
+ 
+ Later, we will analyze how analog sorting compares to digital sorting algorithms in terms of complexity. 
+ 
+diff --git a/reports/TodaDoubleBracket.tex b/reports/TodaDoubleBracket.tex
+index fc50715..a893b7a 100644
+--- a/reports/TodaDoubleBracket.tex
++++ b/reports/TodaDoubleBracket.tex
+@@ -13,12 +13,12 @@
+ 
+ % \section{Equivalence between ODE and Lie bracket notation}
+ 
+-The central idea of analog sorting as described in ~\cite{bloch, brockett} makes use of the Toda lattice. The system of Hamiltonian equations in (1) associated with the Hamiltonian in (2) gives us the following set of equations
++The central idea of analog sorting as described in~\cite{bloch, brockett} makes use of the Toda lattice. The system of Hamiltonian equations in (1) associated with the Hamiltonian in (2) gives us the following set of equations
+ \begin{align*}
+ \dot{p_k} &= \exp(q_{k-1}-q_{k})-\exp(q_{k}-q_{k+1}) \\
+ \dot{q_k} &= p_k
+ \end{align*}
+-where $\exp(x_0-x_1)=\exp (x_n-x_{n+1})=0$.
++where the boundary conditions are set so $\exp(x_0-x_1)=\exp (x_n-x_{n+1})=0$.
+ 
+ This system is also analogous to the double bracket notation 
+ \begin{align}
+@@ -29,7 +29,7 @@ where the brackets stand for the Lie bracket $[A,B] = AB-BA$. The connection bet
+ 
+ \subsubsection{Toda lattice - ODE form}
+ 
+-The above system of ordinary differential equations can be transformed into the system described in ~\cite{harvard_robo} using a change of variables.
++The above system of ordinary differential equations can be transformed into the system described in~\cite{harvard_robo} using a change of variables.
+ \begin{align}
+ x_k &= -\frac{1}{2}p_k \nonumber \\
+ y_k &= \frac{1}{2}\exp(\frac{q_k-q_{k+1}}{2})
+@@ -39,7 +39,7 @@ In that case,
+ \begin{align*}
+     \dot{x_k} &= -\frac{1}{2}\dot{p_k} \\
+               &= -\frac{1}{2}(exp(q_{k-1}-q_{k})-exp(q_{k}-q_{k+1})) \\
+-              &= -\frac{1}{2}(4y^2_{k-1}+4y^2_k) \\
++              &= -\frac{1}{2}(4y^2_{k-1}-4y^2_k) \\
+               &= 2y^2_k-2y^2_{k-1}
+ \end{align*}
+ 
+diff --git a/reports/TodaYN.tex b/reports/TodaYN.tex
+index 03533b9..d18a291 100644
+--- a/reports/TodaYN.tex
++++ b/reports/TodaYN.tex
+@@ -11,7 +11,7 @@
+ %\maketitle
+ 
+ \subsubsection{Role of $N$}
+-The choice of $N = \text{diag} (n, n-1, \dots, 1)$ for analog sorting is clarified by Theorem 1.5 in ~\cite{helmke}. To summarize, the theorem states the following: 
++The choice of $N = \text{diag} (n, n-1, \dots, 1)$ for analog sorting is clarified by Theorem 1.5 in~\cite{helmke}. To summarize, the theorem states the following: 
+ 
+ For each $N$,  $\dot{H}(t) = [H,[H,N]]$ converges to an equilibrium $H_\infty$ as $t\rightarrow \infty$. If $N=\text{diag} (\mu_1 , \dots , \mu_n)$ where $\mu_1 > \dots > \mu_n$, then the Hessian of $f_N(H) = \frac{1}{2}\|N-H\|^2$ is nonsingular and negative definite. 
+ 
+@@ -31,7 +31,7 @@ To analyze the initial values of $y_k$, consider the relation to $\dot x_k$
+     \dot{y_k} &= y_k(x_{k+1}-x_k) 
+ \end{align*}
+ 
+-If $y_k=0$, then $\dot x_k=0$, meaning $x_k(t) = x_k(0)$ for all $t$. This means that the values along the diagonal of $H$ will remain constant and never get sorted. 
++If $y_k=0$, then $\dot x_k=0$, meaning $x_k(t) = x_k(0)$ for all $t$. This means that the values along the diagonal of $H$ will remain constant and never get sorted. So, $y_k$ should be non-zero.
+ 
+ In addition, the $y_k$ values should be small (but still positive). Recall that the eigenvalues will be the values along the diagonal of $H$ as $t\rightarrow \infty$. Consider the determinant $f_n = \det (H-\lambda I)$, where $n$ is the size of the matrix. Since $H$ is a tridiagonal matrix, this determinant can be formulated using a recurrence relation on the size of the matrix $n$.
+ 

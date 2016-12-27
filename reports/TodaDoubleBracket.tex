@@ -13,12 +13,12 @@
 
 % \section{Equivalence between ODE and Lie bracket notation}
 
-The central idea of analog sorting as described in ~\cite{bloch, brockett} makes use of the Toda lattice. The system of Hamiltonian equations in (1) associated with the Hamiltonian in (2) gives us the following set of equations
+The central idea of analog sorting as described in~\cite{bloch, brockett} makes use of the Toda lattice. The system of Hamiltonian equations in (1) associated with the Hamiltonian in (2) gives us the following set of equations
 \begin{align*}
 \dot{p_k} &= \exp(q_{k-1}-q_{k})-\exp(q_{k}-q_{k+1}) \\
 \dot{q_k} &= p_k
 \end{align*}
-where $\exp(x_0-x_1)=\exp (x_n-x_{n+1})=0$.
+where the boundary conditions are set so $\exp(x_0-x_1)=\exp (x_n-x_{n+1})=0$.
 
 This system is also analogous to the double bracket notation 
 \begin{align}
@@ -29,7 +29,7 @@ where the brackets stand for the Lie bracket $[A,B] = AB-BA$. The connection bet
 
 \subsubsection{Toda lattice - ODE form}
 
-The above system of ordinary differential equations can be transformed into the system described in ~\cite{harvard_robo} using a change of variables.
+The above system of ordinary differential equations can be transformed into the system described in~\cite{harvard_robo} using a change of variables.
 \begin{align}
 x_k &= -\frac{1}{2}p_k \nonumber \\
 y_k &= \frac{1}{2}\exp(\frac{q_k-q_{k+1}}{2})
@@ -39,7 +39,7 @@ In that case,
 \begin{align*}
     \dot{x_k} &= -\frac{1}{2}\dot{p_k} \\
               &= -\frac{1}{2}(exp(q_{k-1}-q_{k})-exp(q_{k}-q_{k+1})) \\
-              &= -\frac{1}{2}(4y^2_{k-1}+4y^2_k) \\
+              &= -\frac{1}{2}(4y^2_{k-1}-4y^2_k) \\
               &= 2y^2_k-2y^2_{k-1}
 \end{align*}
 

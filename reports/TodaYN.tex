@@ -11,7 +11,7 @@
 %\maketitle
 
 \subsubsection{Role of $N$}
-The choice of $N = \text{diag} (n, n-1, \dots, 1)$ for analog sorting is clarified by Theorem 1.5 in ~\cite{helmke}. To summarize, the theorem states the following: 
+The choice of $N = \text{diag} (n, n-1, \dots, 1)$ for analog sorting is clarified by Theorem 1.5 in~\cite{helmke}. To summarize, the theorem states the following: 
 
 For each $N$,  $\dot{H}(t) = [H,[H,N]]$ converges to an equilibrium $H_\infty$ as $t\rightarrow \infty$. If $N=\text{diag} (\mu_1 , \dots , \mu_n)$ where $\mu_1 > \dots > \mu_n$, then the Hessian of $f_N(H) = \frac{1}{2}\|N-H\|^2$ is nonsingular and negative definite. 
 
@@ -31,7 +31,7 @@ To analyze the initial values of $y_k$, consider the relation to $\dot x_k$
     \dot{y_k} &= y_k(x_{k+1}-x_k) 
 \end{align*}
 
-If $y_k=0$, then $\dot x_k=0$, meaning $x_k(t) = x_k(0)$ for all $t$. This means that the values along the diagonal of $H$ will remain constant and never get sorted. 
+If $y_k=0$, then $\dot x_k=0$, meaning $x_k(t) = x_k(0)$ for all $t$. This means that the values along the diagonal of $H$ will remain constant and never get sorted. So, $y_k$ should be non-zero.
 
 In addition, the $y_k$ values should be small (but still positive). Recall that the eigenvalues will be the values along the diagonal of $H$ as $t\rightarrow \infty$. Consider the determinant $f_n = \det (H-\lambda I)$, where $n$ is the size of the matrix. Since $H$ is a tridiagonal matrix, this determinant can be formulated using a recurrence relation on the size of the matrix $n$.
 
